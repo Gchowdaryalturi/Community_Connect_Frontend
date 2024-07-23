@@ -11,7 +11,6 @@ import axios from "axios";
 export function SignUp() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [agree, setAgree] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
@@ -20,13 +19,10 @@ export function SignUp() {
     setError('');
     setSuccess('');
 
-    if (!agree) {
-      setError('You must agree to the terms and conditions');
-      return;
-    }
+
 
     try {
-      const response = await axios.post('http://localhost:3000materia/api/auth/signup', { username, password });
+      const response = await axios.post('http://localhost:3000/api/auth/signup', { username, password });
       if (response.status === 201) {
         setSuccess('User created successfully');
       }
