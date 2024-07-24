@@ -11,7 +11,7 @@ import {
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import useAuthStore from "@/useAuthStore";
 
-export function Navbar({ brandName, routes, action, isAuthenticated }) {
+export function Navbar({ brandName, routes, isAuthenticated }) {
   const [openNav, setOpenNav] = React.useState(false);
   const { logout:logoutFn } = useAuthStore();
 
@@ -132,9 +132,7 @@ export function Navbar({ brandName, routes, action, isAuthenticated }) {
       >
         <div className="container mx-auto">
           {navList}
-          {React.cloneElement(action, {
-            className: "w-full block",
-          })}
+          
         </div>
       </MobileNav>
     </MTNavbar>
@@ -143,16 +141,6 @@ export function Navbar({ brandName, routes, action, isAuthenticated }) {
 
 Navbar.defaultProps = {
   brandName: "Community Connect",
-  action: (
-    <a
-      href="https://www.creative-tim.com/product/material-tailwind-kit-react"
-      target="_blank"
-    >
-      <Button variant="gradient" size="sm" fullWidth>
-        free download
-      </Button>
-    </a>
-  ),
 };
 
 Navbar.propTypes = {
