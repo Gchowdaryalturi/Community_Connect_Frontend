@@ -4,7 +4,7 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
@@ -13,20 +13,21 @@ export function SignUp() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const navigate = useNavigate(); // Use the useNavigate hook
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess('');
-
-
-
     try {
       const response = await axios.post('http://localhost:3000/api/auth/signup', { username, password });
       if (response.status === 201) {
         setSuccess('User created successfully');
+        navigate('/home'); // Redirect to the /home route
       }
     } catch (error) {
+      setUsername('')
+      setPassword('')
       if (error.response && error.response.data && error.response.data.message) {
         setError(error.response.data.message);
       } else {
