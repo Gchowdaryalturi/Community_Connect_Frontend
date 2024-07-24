@@ -19,7 +19,7 @@ export function SignIn() {
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/login', { username: username, password });
+      const response = await axios.post('/api/auth/login', { username: username, password });
       const { user, token } = response.data;
 
       localStorage.setItem('user', JSON.stringify(user));

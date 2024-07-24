@@ -20,10 +20,10 @@ export function SignUp() {
     setError('');
     setSuccess('');
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/signup', { username, password });
+      const response = await axios.post('/api/auth/signup', { username, password });
       if (response.status === 201) {
         setSuccess('User created successfully');
-        navigate('/home'); // Redirect to the /home route
+        navigate('/sign-in'); // Redirect to the /home route
       }
     } catch (error) {
       setUsername('')
