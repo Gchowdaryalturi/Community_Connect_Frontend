@@ -15,8 +15,6 @@ export function Navbar({ brandName, routes, isAuthenticated }) {
   const [openNav, setOpenNav] = React.useState(false);
   const { logout:logoutFn } = useAuthStore();
 
-  
-
   React.useEffect(() => {
     window.addEventListener(
       "resize",
