@@ -1,4 +1,5 @@
-import { Home, SignIn, SignUp,MyCampaigns } from "@/pages";
+import { Home, SignIn, SignUp, MyCampaigns, CampaignDetails } from "@/pages";
+import CreateCampaign from "./pages/create-campaign";
 
 export const routes = [
   {
@@ -11,9 +12,15 @@ export const routes = [
     path: "/my-campaigns",
     element: <MyCampaigns />,
   },
+  {
+    name: "Create Campaign",
+    path: "/create-campaign",
+    element: <CreateCampaign />,
+  },
+
   { name: 'Logout', path: null, href: null, target: '_self', logout: true },
 
-  
+
 
 ];
 

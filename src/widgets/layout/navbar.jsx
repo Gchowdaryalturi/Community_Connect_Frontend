@@ -11,9 +11,9 @@ import {
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import useAuthStore from "@/useAuthStore";
 
-export function Navbar({ brandName, routes, isAuthenticated }) {
+export function Navbar({ brandName, routes, isAuthenticated, role }) {
   const [openNav, setOpenNav] = React.useState(false);
-  const { logout:logoutFn } = useAuthStore();
+  const { logout: logoutFn } = useAuthStore();
 
   React.useEffect(() => {
     window.addEventListener(
@@ -25,78 +25,113 @@ export function Navbar({ brandName, routes, isAuthenticated }) {
   const navList = (
     <ul className="mb-4 mt-2 flex flex-col gap-2 text-inherit lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
       {
-        isAuthenticated?
-      routes.protected.map(({ name, path, icon, target ,logout}) => (
-        <Typography
-          key={name}
-          as="li"
-          variant="small"
-          color="inherit"
-          className="capitalize"
-        >
-          {logout ? (
-            <button
-            onClick={logoutFn}
-            className="flex items-center gap-1 p-1 font-bold"
-          >
-            {icon &&
-              React.createElement(icon, {
-                className: "w-[18px] h-[18px] opacity-75 mr-1",
-              })}
-            {name}
-          </button>
+        isAuthenticated && role == "admin" ?
+          routes.admin.map(({ name, path, icon, target, logout }) => (
+            <Typography
+              key={name}
+              as="li"
+              variant="small"
+              color="inherit"
+              className="capitalize"
+            >
+              {logout ? (
+                <button
+                  onClick={logoutFn}
+                  className="flex items-center gap-1 p-1 font-bold"
+                >
+                  {icon &&
+                    React.createElement(icon, {
+                      className: "w-[18px] h-[18px] opacity-75 mr-1",
+                    })}
+                  {name}
+                </button>
 
-          ) : (
-            <Link
-              to={path}
-              target={target}
-              className="flex items-center gap-1 p-1 font-bold"
-            >
-              {icon &&
-                React.createElement(icon, {
-                  className: "w-[18px] h-[18px] opacity-75 mr-1",
-                })}
-              {name}
-            </Link>
-          )}
-        </Typography>
-      )):
-      routes.public.map(({ name, path, icon, href, target }) => (
-        <Typography
-          key={name}
-          as="li"
-          variant="small"
-          color="inherit"
-          className="capitalize"
-        >
-          {href ? (
-            <a
-              href={href}
-              target={target}
-              className="flex items-center gap-1 p-1 font-bold"
-            >
-              {icon &&
-                React.createElement(icon, {
-                  className: "w-[18px] h-[18px] opacity-75 mr-1",
-                })}
-              {name}
-            </a>
-          ) : (
-            <Link
-              to={path}
-              target={target}
-              className="flex items-center gap-1 p-1 font-bold"
-            >
-              {icon &&
-                React.createElement(icon, {
-                  className: "w-[18px] h-[18px] opacity-75 mr-1",
-                })}
-              {name}
-            </Link>
-          )}
-        </Typography>
-      ))
-    }
+              ) : (
+                <Link
+                  to={path}
+                  target={target}
+                  className="flex items-center gap-1 p-1 font-bold"
+                >
+                  {icon &&
+                    React.createElement(icon, {
+                      className: "w-[18px] h-[18px] opacity-75 mr-1",
+                    })}
+                  {name}
+                </Link>
+              )}
+            </Typography>
+          )) : isAuthenticated ?
+            routes.protected.map(({ name, path, icon, target, logout }) => (
+              <Typography
+                key={name}
+                as="li"
+                variant="small"
+                color="inherit"
+                className="capitalize"
+              >
+                {logout ? (
+                  <button
+                    onClick={logoutFn}
+                    className="flex items-center gap-1 p-1 font-bold"
+                  >
+                    {icon &&
+                      React.createElement(icon, {
+                        className: "w-[18px] h-[18px] opacity-75 mr-1",
+                      })}
+                    {name}
+                  </button>
+
+                ) : (
+                  <Link
+                    to={path}
+                    target={target}
+                    className="flex items-center gap-1 p-1 font-bold"
+                  >
+                    {icon &&
+                      React.createElement(icon, {
+                        className: "w-[18px] h-[18px] opacity-75 mr-1",
+                      })}
+                    {name}
+                  </Link>
+                )}
+              </Typography>
+            )) :
+            routes.public.map(({ name, path, icon, href, target }) => (
+              <Typography
+                key={name}
+                as="li"
+                variant="small"
+                color="inherit"
+                className="capitalize"
+              >
+                {href ? (
+                  <a
+                    href={href}
+                    target={target}
+                    className="flex items-center gap-1 p-1 font-bold"
+                  >
+                    {icon &&
+                      React.createElement(icon, {
+                        className: "w-[18px] h-[18px] opacity-75 mr-1",
+                      })}
+                    {name}
+                  </a>
+                ) : (
+                  <Link
+                    to={path}
+                    target={target}
+                    className="flex items-center gap-1 p-1 font-bold"
+                  >
+                    {icon &&
+                      React.createElement(icon, {
+                        className: "w-[18px] h-[18px] opacity-75 mr-1",
+                      })}
+                    {name}
+                  </Link>
+                )}
+              </Typography>
+            ))
+      }
     </ul>
   );
 
@@ -130,7 +165,7 @@ export function Navbar({ brandName, routes, isAuthenticated }) {
       >
         <div className="container mx-auto">
           {navList}
-          
+
         </div>
       </MobileNav>
     </MTNavbar>

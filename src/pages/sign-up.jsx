@@ -20,6 +20,8 @@ export function SignUp() {
     setError('');
     setSuccess('');
     try {
+      const url = 'http://localhost:3000'
+      // const url = ''
       const response = await axios.post('/api/auth/signup', { username, password });
       if (response.status === 201) {
         setSuccess('User created successfully');

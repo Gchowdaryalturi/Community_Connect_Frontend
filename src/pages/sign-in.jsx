@@ -19,12 +19,16 @@ export function SignIn() {
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
+      const url = 'http://localhost:3000'
+      // const url = ''
       const response = await axios.post('/api/auth/login', { username: username, password });
-      const { user, token } = response.data;
+      const { user, token, role } = response.data;
 
       localStorage.setItem('user', JSON.stringify(user));
       localStorage.setItem('token', token);
-      login(user, token); // Call the login function from the store
+      localStorage.setItem('role', role);
+      console.log(user)
+      login(user, token, role); // Call the login function from the store
 
       navigate('/my-campaigns'); // Redirect to the /home route
       // Handle success, e.g., save token, redirect, etc.
@@ -71,7 +75,7 @@ export function SignIn() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-        
+
           <Button className="mt-6" fullWidth type="submit">
             Sign In
           </Button>

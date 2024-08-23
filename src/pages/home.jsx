@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardBody,
@@ -7,9 +7,39 @@ import {
   Button,
 } from "@material-tailwind/react";
 import { Footer } from "@/widgets/layout";
-import { campaignData } from "@/data";
+import { Link } from "react-router-dom";
+
+import axios from 'axios';
 
 export function Home() {
+  const [campaigns, setCampaigns] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchCampaigns = async () => {
+      try {
+        const baseUrl = "http://localhost:3000"; // Replace with your API base URL
+        const response = await axios.get(`/api/campaigns`);
+        if (response.status === 200) {
+          if (Array.isArray(response.data)) {
+            setCampaigns(response.data);
+          } else {
+            setError('Invalid data format.');
+          }
+        } else {
+          setError('Failed to fetch campaigns.');
+        }
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCampaigns();
+  }, []);
+
   return (
     <>
       <div className="relative flex h-screen content-center items-center justify-center">
@@ -33,30 +63,36 @@ export function Home() {
       <div className="relative -mt-48 z-20">
         <div className="max-w-8xl container mx-auto px-4">
           <div className="flex flex-wrap -mx-4">
-            {campaignData.map((campaign) => (
-              <div key={campaign.id} className="w-full px-4 mb-8 md:w-1/2 lg:w-1/3">
-                <Card className="overflow-hidden">
-                  <CardHeader className="relative h-56 overflow-hidden">
-                    <img
-                      src={campaign.image}
-                      alt={campaign.title}
-                      className="h-full w-full object-cover"
-                    />
-                  </CardHeader>
-                  <CardBody>
-                    <Typography variant="h5" className="mb-2">
-                      {campaign.title}
-                    </Typography>
-                    <Typography>
-                      {campaign.description}
-                    </Typography>
-                    <Button variant="filled" color="blue" className="mt-4">
-                      Learn More
-                    </Button>
-                  </CardBody>
-                </Card>
-              </div>
-            ))}
+            {loading ? (
+              <p>Loading...</p>
+            ) : error ? (
+              <p>{error}</p>
+            ) : (
+              campaigns.map((campaign) => (
+                <div key={campaign.id} className="w-full px-4 mb-8 md:w-1/2 lg:w-1/3">
+                  <Link to={`/details/${campaign._id}`}>
+                    <Card className="overflow-hidden">
+                      <CardHeader className="relative h-56 overflow-hidden">
+                        <img
+                          src={campaign.img}
+                          alt={campaign.title}
+                          className="h-full w-full object-cover"
+                        />
+                      </CardHeader>
+                      <CardBody>
+                        <Typography variant="h5" className="mb-2">
+                          {campaign.title}
+                        </Typography>
+                        <Typography>
+                          {campaign.description}
+                        </Typography>
+
+                      </CardBody>
+                    </Card>
+                  </Link>
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>
