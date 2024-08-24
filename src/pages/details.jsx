@@ -12,7 +12,7 @@ export function CampaignDetails() {
     useEffect(() => {
         const fetchCampaign = async () => {
             try {
-                const response = await axios.get(`http://localhost:3000/api/campaigns/${id}`);
+                const response = await axios.get(`/api/campaigns/details/${id}`);
                 if (response.status === 200 && response.data) {
                     setCampaign(response.data);
                 } else {

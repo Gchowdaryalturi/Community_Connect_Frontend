@@ -139,9 +139,14 @@ export function Navbar({ brandName, routes, isAuthenticated, role }) {
     <MTNavbar color="transparent" className="p-3">
       <div className="container mx-auto flex items-center justify-between text-white">
         <Link to="/">
-          <Typography className="mr-4 ml-2 cursor-pointer py-1.5 font-bold">
-            {brandName}
-          </Typography>
+          <div style={{ display: 'flex' }}>
+            <IconButton>
+              <img src={"/img/brand-awareness.png"} alt="Logo" className="h-8 w-8" />
+            </IconButton>
+            <Typography className="mr-4 ml-2 cursor-pointer py-1.5 font-bold">
+              {brandName}
+            </Typography>
+          </div>
         </Link>
         <div className="hidden lg:block">{navList}</div>
 
